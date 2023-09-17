@@ -1,25 +1,27 @@
 import logo from './logo.svg';
 import './App.css';
+import PatientForm from './components/patients/PatientForm/PatientForm.jsx';
+import PatientCard from './components/patients/PatientCard/PatientCard';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+
+const App = ()=>{
+  return(
+      <div className='App'>
+        <header></header>
+        <div>
+          {/* <PatientForm patient_id={null}/>           */}
+          <PatientCard />
+        </div>  
+
+        <footer></footer>
+      </div>  
+      
+
+
   );
+
 }
+
+
 
 export default App;
