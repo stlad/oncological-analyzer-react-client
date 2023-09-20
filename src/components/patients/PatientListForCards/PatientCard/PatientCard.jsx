@@ -1,5 +1,7 @@
 import React, { Component, useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import classes from './PatientCard.module.css'
+import ApiHost from '../../../../globals/globals';
 
 function PatientCard(props){
     const [pat, setpat] = useState({
@@ -11,11 +13,22 @@ function PatientCard(props){
         birthdate:props.patient.birthdate
     })
 
+    const handleDeletion = (idToDelete) =>{
+        fetch(ApiHost+'/patients/' + idToDelete, {
+            method:"DELETE"
+        })
+        .then(resp => resp.json())
+        .then(data=>{}, (error) => {})
+        .then(console.log("patient deleted")); 
+    }
+
+
+
     
     return(
         <div className={classes.card}>
             <div>
-                <div className={classes.cardBtn} >X</div>
+                <div className={classes.cardBtn} onClick={()=>handleDeletion(pat.id)}>X</div>
             </div>
             <div className={classes.innerCard}>
                 <p>{pat.id}</p>
@@ -37,5 +50,7 @@ function getAge(birth, moment){
     var age = last.getFullYear() - birthDate.getFullYear();
     return age
 }
+
+
 
 export default PatientCard;

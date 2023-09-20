@@ -5,13 +5,14 @@ import ApiHost from '../../../globals/globals.js';
 
 
 function PatientListForCard(props){
+    const [upd, setUpd] = useState(true);
     const [patients, setPatients] = useState(null);
     const [isLoading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    console.log("mounted");
     
     useEffect(() =>{
-        console.log("mounted");
         fetch(ApiHost+'/patients/all', {
             method:"GET"
         })
@@ -26,6 +27,14 @@ function PatientListForCard(props){
         }) 
     },[])
     
+    const handleCardClicked = (event) =>{
+        // TODO ОБНОВЛЕНИЕ СТРАНИЦЫ ПРИ ЭТОМ СОБЫТИИ (УДАЛИНЕИЕ ПАЦИЕНТА
+        console.log(event);
+        setUpd(!upd);
+        console.log(upd);
+    }
+
+
     if(error != null){
         return (
             <div>
@@ -52,28 +61,14 @@ function PatientListForCard(props){
         <div>
             <div className={classes.area}>
                 <h3>Пациенты</h3>
-                {patients.map(patient => <div><PatientCard key={patient.id}  patient={patient}/> </div>)}
+                {patients.map(patient => <div onClick={handleCardClicked} key={patient.id}><PatientCard   patient={patient}/> </div>)}
             </div>
         </div>
     )
    
 }
 
+
 export default PatientListForCard;
 
 
-
-
-const addCards = () => {
-    let content = []
-    // for(var item in {patients}){
-    //     console.log(item)
-    // }
-
-    // for(let i=0; i<patients.length;i++){
-    //     let pat = patients[i]
-    //     console.log(pat);
-    //     content.push(<div><PatientCard key={i}  patient={pat}/></div>)
-    // }
-    return content;
-}
