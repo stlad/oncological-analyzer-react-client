@@ -8,7 +8,7 @@ const AppRoutes  = (props) =>{
     <BrowserRouter>
         <Routes>
             <Route 
-                path='/patients'
+                path='/' // /patients
                 element = {<PatientListForCard />}
             />
 

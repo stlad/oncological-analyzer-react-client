@@ -1,16 +1,16 @@
-import React, { Component, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import React, { Component, useState  } from 'react';
 import classes from './PatientCard.module.css'
 import ApiHost from '../../../../globals/globals';
 
 function PatientCard(props){
-    const [pat, setpat] = useState({
-        id: props.patient.id == null ? -1 : props.patient.id,
-        name:props.patient.name,
-        lastname:props.patient.lastname,
-        patronymic:props.patient.patronymic,
-        diagnosis:props.patient.diagnosis,
-        birthdate:props.patient.birthdate
+    const [pat, setPat] = useState({
+        id : props.patient.id == null ? -1 : props.patient.id,
+        name :props.patient.name,
+        lastname :props.patient.lastname,
+        patronymic :props.patient.patronymic,
+        mainDiagnosis :props.patient.mainDiagnosis,
+        birthdate :props.patient.birthdate,
+        deathdate :props.patient.deathdate
     })
 
     const handleDeletion = (idToDelete) =>{
@@ -19,7 +19,6 @@ function PatientCard(props){
         })
         .then(resp => resp.json())
         .then(data=>{}, (error) => {})
-        .then(console.log("patient deleted")); 
     }
 
 
@@ -28,13 +27,13 @@ function PatientCard(props){
     return(
         <div className={classes.card}>
             <div>
-                <div className={classes.cardBtn} onClick={()=>handleDeletion(pat.id)}>X</div>
+                <div className={classes.cardBtn}  onClick={()=>handleDeletion(pat.id)}>X</div>
             </div>
-            <div className={classes.innerCard}>
-                <p>{pat.id}</p>
+            <div className={classes.innerCard} key={"pat-dlt-btn-" + pat.id} >
+                {/* <p>{pat.id}</p> */}
                 <p>{pat.lastname} {pat.name} {pat.patronymic}</p>
-                <p>{pat.birthdate} ({getAge(pat.birthdate, Date.now())} лет)</p>
-                <p>{pat.diagnosis}</p>
+                <p>{pat.birthdate} - {pat.deathdate} ({getAge(pat.birthdate, pat.deathdate)} лет)</p>
+                <p>{pat.mainDiagnosis}</p>
             </div>
             
             <div>
@@ -45,6 +44,7 @@ function PatientCard(props){
 }
 
 function getAge(birth, moment){
+    if(moment==null) moment=Date.now();
     var birthDate = new Date(birth);
     var last = new Date(moment);
     var age = last.getFullYear() - birthDate.getFullYear();

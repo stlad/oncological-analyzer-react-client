@@ -5,33 +5,37 @@ import ApiHost from '../../../globals/globals.js';
 
 
 function PatientListForCard(props){
-    const [upd, setUpd] = useState(true);
+
     const [patients, setPatients] = useState(null);
     const [isLoading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    console.log("mounted");
+    const [rerenderFlag, callRerender] = useState(false);
     
     useEffect(() =>{
+        console.log("rendered");
         fetch(ApiHost+'/patients/all', {
             method:"GET"
         })
         .then(resp => resp.json())
         .then(data=>{
-            // console.log(data);
+            console.log("data getted");
+            console.log(data);
             setPatients(data);
             setLoading(false);
         },
         (error) => {
             setError(error.message);
         }) 
-    },[])
+    },[rerenderFlag])
     
     const handleCardClicked = (event) =>{
-        // TODO ОБНОВЛЕНИЕ СТРАНИЦЫ ПРИ ЭТОМ СОБЫТИИ (УДАЛИНЕИЕ ПАЦИЕНТА
-        console.log(event);
-        setUpd(!upd);
-        console.log(upd);
+        setTimeout(()=>{    // ЭТО ОЧЕНЬ ПЛОХОЙ ВАРИАНТ. УБРАТЬ ЗАДЕРЖКУ
+            console.log("list click handling")
+            setPatients([]);
+            callRerender(!rerenderFlag);
+            console.log("re rendering called")
+        },500);
     }
 
 
