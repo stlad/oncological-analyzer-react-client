@@ -1,37 +1,38 @@
-import React, { useState, useEffect } from 'react';
-import PatientCard from './PatientCard/PatientCard.jsx'
-import classes from './PatientListForCard.module.css'
+import { useState, useEffect } from 'react';
+import { useParams } from "react-router-dom";
 import {ApiHost} from '../../../globals/globals.js';
+import TestCard from './TestCard/TestCard.jsx'; 
 
+function TestList(props){
 
-function PatientListForCard(props){
-
-    const [patients, setPatients] = useState(null);
+    const [patient, setPatient] = useState({})
+    const [tests, setTests] = useState([]);
     const [isLoading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     const [rerenderFlag, callRerender] = useState(false);
     
+    let { patientId } = useParams();
+
     useEffect(() =>{
-        console.log("rendered");
-        fetch(ApiHost+'/patients/all', {
+        setPatient(props.getPatient());
+        fetch(ApiHost+'/results/tests/'+patientId+'/all', {
             method:"GET"
         })
         .then(resp => resp.json())
-        .then(data=>{
-            console.log("data getted");
-            console.log(data);
-            setPatients(data);
+        .then(tests=>{
+            setTests(tests);
             setLoading(false);
         },
         (error) => {
             setError(error.message);
         }) 
     },[rerenderFlag])
-    
-    const handlePatientDeletion = () =>{
+
+
+    const handleTestsDeletion = () =>{
         console.log("deletion")
-        setPatients([]);
+        setTests([]);
         callRerender(!rerenderFlag);
     }
 
@@ -44,17 +45,17 @@ function PatientListForCard(props){
         return (
             <div>
                 <div>
-                    <h3>Пациенты</h3>
+                    <h3>Анализы</h3>
                     <p>{error.message}</p>
                 </div>
             </div>
 
         )
-    }else if(isLoading){
+    }else if(isLoading || patient==null){
         return (
             <div>
                 <div>
-                    <h3>Пациенты</h3>
+                    <h3>Анализы</h3>
                     {isLoading && <p>Загрузка...</p>}
                 </div>
             </div>
@@ -64,13 +65,13 @@ function PatientListForCard(props){
     else
     return (
         <div>
-            <div className={classes.area}>
-                <h3>Пациенты</h3>
-                {patients.map(patient => <div key={patient.id}>
-                    <PatientCard patient={patient}
-                    deletionCallback={handlePatientDeletion} 
-                    infoCallback = {handlePatientInfo}/> 
-                    </div>)}
+            <div>
+                <h3>Анализы</h3>
+                {tests.map((test) => <div key={test.id}>
+                    <TestCard
+                    getTest={()=>test}
+                    />
+                </div>)}
             </div>
         </div>
     )
@@ -78,6 +79,6 @@ function PatientListForCard(props){
 }
 
 
-export default PatientListForCard;
+export default TestList;
 
 

@@ -1,6 +1,7 @@
 import React, { Component, useState  } from 'react';
 import classes from './PatientCard.module.css'
 import {ApiHost} from '../../../../globals/globals';
+import { useNavigate } from "react-router-dom";
 
 function PatientCard(props){
     const [pat, setPat] = useState({
@@ -12,7 +13,7 @@ function PatientCard(props){
         birthdate :props.patient.birthdate,
         deathdate :props.patient.deathdate
     })
-
+    const navigate = useNavigate();
 
     const handleDeletion = (idToDelete) =>{
         fetch(ApiHost+'/patients/' + idToDelete, {
@@ -28,6 +29,10 @@ function PatientCard(props){
         props.infoCallback(patientId);
     }
     
+    const handleToTests = (patId) =>{
+        navigate("/tests/" + pat.id);
+    }
+    
     return(
         <div className={classes.card}>
             <div>
@@ -41,7 +46,7 @@ function PatientCard(props){
             </div>
             
             <div>
-                <div className={classes.cardBtn}>Анализы</div>
+                <div className={classes.cardBtn} onClick={handleToTests}>Анализы</div>
             </div>
         </div>
     )

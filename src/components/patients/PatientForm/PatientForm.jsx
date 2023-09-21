@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, {  useEffect, useState } from 'react';
 import classes from './PatientForm.module.css'
 import { getEmptyPatientTemplate, ApiHost } from '../../../globals/globals';
 
@@ -27,8 +27,9 @@ function PatientForm(props) {
       evt.target.type === "checkbox" ? !evt.target.checked : evt.target.value;
       setPatient({
       ...patient,
-      [name]: value =="" ? null : value
+      [name]: value ==="" ? null : value
     })
+    console.log(patient);
   }
 
   function handleSubmit(event) {
@@ -58,8 +59,14 @@ function PatientForm(props) {
     console.log(patient);
   }
 
+  const handleNewPatClick = () =>{
+    setPatient(getEmptyPatientTemplate());
+  }
+
   return (
     <div className='patient-form-main-div'>
+    <h3>Пациент</h3>
+    <button onClick={handleNewPatClick}> Новый пациент</button>
       <form className={classes.column} onSubmit={handleSubmit}>
 
         <div className={`${classes.names} ${classes.column}`}>
@@ -79,7 +86,7 @@ function PatientForm(props) {
 
           <div>
             <label>Мертв
-            <input id='alive-checkbox' type='checkbox' placeholder='имя' name='alive' onChange={handleInputChange}></input>
+            <input id='alive-checkbox' type='checkbox' placeholder='имя' name='alive' checked={!patient.alive ?? false} onChange={handleInputChange}></input>
             </label>
           </div>
 

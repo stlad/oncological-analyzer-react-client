@@ -1,0 +1,42 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { ApiHost } from "../../globals/globals";
+import TestList from "./TestList/TestList";
+import PatientForm from "../patients/PatientForm/PatientForm";
+import classes from './TestPage.module.css'
+function TestPage (props){
+    let { patientId } = useParams()
+    const [patient, setPatient] = useState({id:-1})
+
+    const getPatientFromServer = (id) =>{
+        fetch(ApiHost + '/patients/' + id,{
+            method:"GET"
+        }).then(resp => resp.json())
+        .then(pat => {
+            console.log(pat);
+            setPatient(pat)
+        })
+        .then(console.log(patient));
+    }
+
+
+    useEffect(()=>{
+        getPatientFromServer(patientId);
+
+    },[])
+
+    const getPatient = () =>{
+        return patient;
+    }
+
+
+    return (
+        <div className={classes.row}>
+            <PatientForm getPatient={()=>patient} />
+            <TestList getPatient={()=>patient}/>
+        
+        </div>
+    )
+}
+
+export default TestPage;
