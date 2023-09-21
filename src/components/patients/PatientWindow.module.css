@@ -1,0 +1,4 @@
+.patientsList{
+    display: flex;
+    flex-direction: row;
+}

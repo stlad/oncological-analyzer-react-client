@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PatientCard from './PatientCard/PatientCard.jsx'
 import classes from './PatientListForCard.module.css'
-import ApiHost from '../../../globals/globals.js';
+import {ApiHost} from '../../../globals/globals.js';
 
 
 function PatientListForCard(props){
@@ -29,13 +29,14 @@ function PatientListForCard(props){
         }) 
     },[rerenderFlag])
     
-    const handleCardClicked = (event) =>{
-        setTimeout(()=>{    // ЭТО ОЧЕНЬ ПЛОХОЙ ВАРИАНТ. УБРАТЬ ЗАДЕРЖКУ
-            console.log("list click handling")
-            setPatients([]);
-            callRerender(!rerenderFlag);
-            console.log("re rendering called")
-        },500);
+    const handlePatientDeletion = () =>{
+        console.log("deletion")
+        setPatients([]);
+        callRerender(!rerenderFlag);
+    }
+
+    const handlePatientInfo = (patient)=>{
+        props.callbackInfo(patient);
     }
 
 
@@ -65,7 +66,12 @@ function PatientListForCard(props){
         <div>
             <div className={classes.area}>
                 <h3>Пациенты</h3>
-                {patients.map(patient => <div onClick={handleCardClicked} key={patient.id}><PatientCard   patient={patient}/> </div>)}
+                <button >Новый пациент</button>
+                {patients.map(patient => <div key={patient.id}>
+                    <PatientCard patient={patient}
+                    deletionCallback={handlePatientDeletion} 
+                    infoCallback = {handlePatientInfo}/> 
+                    </div>)}
             </div>
         </div>
     )

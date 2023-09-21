@@ -1,6 +1,6 @@
 import React, { Component, useState  } from 'react';
 import classes from './PatientCard.module.css'
-import ApiHost from '../../../../globals/globals';
+import {ApiHost} from '../../../../globals/globals';
 
 function PatientCard(props){
     const [pat, setPat] = useState({
@@ -13,23 +13,27 @@ function PatientCard(props){
         deathdate :props.patient.deathdate
     })
 
+
     const handleDeletion = (idToDelete) =>{
         fetch(ApiHost+'/patients/' + idToDelete, {
             method:"DELETE"
         })
         .then(resp => resp.json())
         .then(data=>{}, (error) => {})
+        .then(()=>props.deletionCallback())
     }
 
 
-
+    const handleInfo = (patientId)=>{
+        props.infoCallback(patientId);
+    }
     
     return(
         <div className={classes.card}>
             <div>
                 <div className={classes.cardBtn}  onClick={()=>handleDeletion(pat.id)}>X</div>
             </div>
-            <div className={classes.innerCard} key={"pat-dlt-btn-" + pat.id} >
+            <div className={classes.innerCard} key={"pat-dlt-btn-" + pat.id} onClick={()=>handleInfo(pat.id)}>
                 {/* <p>{pat.id}</p> */}
                 <p>{pat.lastname} {pat.name} {pat.patronymic}</p>
                 <p>{pat.birthdate} - {pat.deathdate} ({getAge(pat.birthdate, pat.deathdate)} лет)</p>

@@ -1,39 +1,61 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import classes from './PatientForm.module.css'
+import { getEmptyPatientTemplate, ApiHost } from '../../../globals/globals';
 
 function PatientForm(props) {
 
-  const [state, setState] = useState({
-    "id": props.patient_id == null ? -1 : props.patient_id,
-    "name": "",
-    "lastname": "",
-    "patronymic": "",
-    "birthdate": "",
-    "deathdate": "",
-    "alive": true,
-    "mainDiagnosis": "",
-    "otherDiagnosis": "",
-    "info": "",
-    "gender": "Male"
+  const [patient, setPatient] = useState(getEmptyPatientTemplate())
+
+
+  useEffect(()=>{
+    console.log("form mounted");
+    patientFromPropsFunc();
+  },[props])
+
+
+  function patientFromPropsFunc(){
+    let pat= props.getPatient == null ? getEmptyPatientTemplate() : props.getPatient();
+    console.log("patient")
+    console.log(pat);
+    setPatient(pat);
   }
-  )
 
 
-  function handleInputChange(evt) {
-    //console.log(evt);
+    function handleInputChange(evt) {
     const name = evt.target.name;
     const value =
       evt.target.type === "checkbox" ? !evt.target.checked : evt.target.value;
-    setState({
-      ...state,
-      [name]: value
+      setPatient({
+      ...patient,
+      [name]: value =="" ? null : value
     })
-    console.log(state)
   }
 
   function handleSubmit(event) {
-    event.preventDefault();
-    console.log(state);
+    if(patient.id === -1 || patient.id == null){
+      fetch(ApiHost + "/patients/",{
+        method:"POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body:JSON.stringify(patient)
+      }).then(console.log("saved new patient"))
+      .then(props.onSubmit())
+    }
+
+
+    else{
+      fetch(ApiHost + "/patients/",{
+        method:"PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body:JSON.stringify(patient)
+      }).then(console.log("updated patient"))
+      .then(props.onSubmit())
+    }
+    props.onSubmit();
+    console.log(patient);
   }
 
   return (
@@ -41,10 +63,10 @@ function PatientForm(props) {
       <form className={classes.column} onSubmit={handleSubmit}>
 
         <div className={`${classes.names} ${classes.column}`}>
-          <input type='text' value={state.name} placeholder='имя' name='name' onChange={handleInputChange}></input>
-          <input type='text' value={state.lastname} placeholder='Фамилия' name='lastname' onChange={handleInputChange}></input>
-          <input type='text' value={state.patronymic} placeholder='Отчество' name='patronymic' onChange={handleInputChange}></input>
-          <select name='gender' value={state.gender} onChange={handleInputChange}>
+          <input type='text' value={patient.name ?? ""} placeholder='имя' name='name' onChange={handleInputChange}></input>
+          <input type='text' value={patient.lastname ?? ""} placeholder='Фамилия' name='lastname' onChange={handleInputChange}></input>
+          <input type='text' value={patient.patronymic ?? ""} placeholder='Отчество' name='patronymic' onChange={handleInputChange}></input>
+          <select name='gender' value={patient.gender ?? ""} onChange={handleInputChange}>
             <option value='Male'>Мужчина</option>
             <option value='Female'>Женщина</option>
           </select>
@@ -52,7 +74,7 @@ function PatientForm(props) {
 
         <div className={`${classes.dates} ${classes.column}`}>
           <label>Дата рождения 
-            <input type='date' value={state.birthdate} placeholder='Дата рождения' name='birthdate' onChange={handleInputChange}></input>
+            <input type='date' value={patient.birthdate?? ""} placeholder='Дата рождения' name='birthdate' onChange={handleInputChange}></input>
           </label>
 
           <div>
@@ -62,19 +84,19 @@ function PatientForm(props) {
           </div>
 
           {
-            !state.alive &&
+            !patient.alive &&
             <div>
               <label>Дата смерти 
-              <input id="deathdate-field" type='date' value={state.deathdate} placeholder='имя' name='deathdate' onChange={handleInputChange}></input></label>
+              <input id="deathdate-field" type='date' value={patient.deathdate ?? ""} placeholder='имя' name='deathdate' onChange={handleInputChange}></input></label>
             </div>
           }
 
         </div>
 
         <div className={`${classes.diagnosis}  ${classes.column}`}>
-          <input type='text' value={state.mainDiagnosis} placeholder='Диагноз' name='mainDiagnosis' onChange={handleInputChange}></input>
-          <input type='text' value={state.otherDiagnosis} placeholder='Диагноз дополительный' name='otherDiagnosis' onChange={handleInputChange}></input>
-          <textarea value={state.info} placeholder='Доп. Информация' name='info' onChange={handleInputChange}></textarea>
+          <input type='text' value={patient.mainDiagnosis ?? ""} placeholder='Диагноз' name='mainDiagnosis' onChange={handleInputChange}></input>
+          <input type='text' value={patient.otherDiagnosis ?? ""} placeholder='Диагноз дополительный' name='otherDiagnosis' onChange={handleInputChange}></input>
+          <textarea value={patient.info ?? ""} placeholder='Доп. Информация' name='info' onChange={handleInputChange}></textarea>
         </div>
 
         <input type='submit' ></input>
@@ -86,4 +108,4 @@ function PatientForm(props) {
 
 }
 
-export default PatientForm;
+export default PatientForm;  
