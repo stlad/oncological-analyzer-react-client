@@ -9,6 +9,7 @@ function TestList(props){
     const [tests, setTests] = useState([]);
     const [isLoading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [transferTest, setTransferTest] = useState(null);
 
     const [rerenderFlag, callRerender] = useState(false);
     
@@ -40,6 +41,9 @@ function TestList(props){
         props.callbackInfo(patient);
     }
 
+    const testCallback = (test)=>{
+        props.testCallback(test);
+    }
 
     if(error != null){
         return (
@@ -70,6 +74,7 @@ function TestList(props){
                 {tests.map((test) => <div key={test.id}>
                     <TestCard
                     getTest={()=>test}
+                    callbackTest={testCallback}
                     />
                 </div>)}
             </div>

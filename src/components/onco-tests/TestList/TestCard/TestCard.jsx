@@ -10,11 +10,16 @@ function TestCard(props){
 
     }
 
+    const handleCardClick = ()=>{
+        props.callbackTest(test);
+    }
+    
     return (
         <div className={classes.card}>
-            <div className={classes.innerCard}>
-                <p>{test.testDate}</p>
-                <p>({getAge(test.patientOwner.birthdate, test.testDate)} лет)</p>
+            <div className={classes.innerCard} onClick={handleCardClick}>
+                <p>{test.testDate} ({getAge(test.patientOwner.birthdate, test.testDate)} лет)</p>
+                <p></p>
+                <p>Сезон: {getSeason(test.testDate)}</p>
             </div>
             <div className={classes.cardBtn}  onClick={()=>handleDeletion(test.id)}>X</div>
         </div>
@@ -28,6 +33,16 @@ function getAge(birth, moment){
     var last = new Date(moment);
     var age = last.getFullYear() - birthDate.getFullYear();
     return age
+}
+
+
+function getSeason(moment){
+    var date = new Date(moment);
+    var month = date.getMonth(); // [2:7] - весна, [0:1]+[8:11] - осень
+    if(month >= 2 && month <= 7)
+        return "Весна";
+    else
+        return "Осень";
 }
 
 export default TestCard;

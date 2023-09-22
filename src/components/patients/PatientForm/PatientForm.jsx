@@ -8,14 +8,14 @@ function PatientForm(props) {
 
 
   useEffect(()=>{
-    console.log("form mounted");
+    // console.log("form mounted");
     patientFromPropsFunc();
   },[props])
 
 
   function patientFromPropsFunc(){
     let pat= props.getPatient == null ? getEmptyPatientTemplate() : props.getPatient();
-    console.log("patient")
+    // console.log("patient")
     console.log(pat);
     setPatient(pat);
   }
@@ -40,7 +40,8 @@ function PatientForm(props) {
           "Content-Type": "application/json",
         },
         body:JSON.stringify(patient)
-      }).then(console.log("saved new patient"))
+      })
+      // .then(console.log("saved new patient"))
       .then(props.onSubmit())
     }
 
@@ -56,7 +57,7 @@ function PatientForm(props) {
       .then(props.onSubmit())
     }
     props.onSubmit();
-    console.log(patient);
+    // console.log(patient);
   }
 
   const handleNewPatClick = () =>{
