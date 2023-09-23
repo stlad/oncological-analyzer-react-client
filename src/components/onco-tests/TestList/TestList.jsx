@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import {ApiHost} from '../../../globals/globals.js';
 import TestCard from './TestCard/TestCard.jsx'; 
-
+import NewTestForm from './NewTestForm/NewTestForm.jsx';
 function TestList(props){
 
     const [patient, setPatient] = useState({})
@@ -12,7 +12,7 @@ function TestList(props){
     const [transferTest, setTransferTest] = useState(null);
 
     const [rerenderFlag, callRerender] = useState(false);
-    
+    const [testToSave, setTestToSave] = useState("")
     let { patientId } = useParams();
 
     useEffect(() =>{
@@ -45,6 +45,7 @@ function TestList(props){
         props.testCallback(test);
     }
 
+
     if(error != null){
         return (
             <div>
@@ -70,14 +71,17 @@ function TestList(props){
     return (
         <div>
             <div>
+                <NewTestForm patientId={patientId}/>
                 <h3>Анализы</h3>
                 {tests.map((test) => <div key={test.id}>
                     <TestCard
                     getTest={()=>test}
                     callbackTest={testCallback}
+                    deletionCallBack={handleTestsDeletion}
                     />
                 </div>)}
             </div>
+            
         </div>
     )
    

@@ -37,8 +37,8 @@ function TestPage (props){
         <div className={classes.row}>
             <PatientForm  getPatient={()=>patient} />
             <TestList getPatient={()=>patient}
-            testCallback= {testCallback}
-            />
+            testCallback= {testCallback}/>
+            
             <ParameterList getTest={()=>test}/>
         
         </div>

@@ -46,6 +46,7 @@ function ParameterList(props){
         })
     }
     
+
     if(!isCatalogLoaded || catalog==null){
     return (
         <div>
@@ -63,13 +64,13 @@ function ParameterList(props){
                 <h3>Результаты</h3>
                 {test != null ? test.testDate : ""}
                 <h4>Результаты гематологического исследования</h4>
-                {catalog['Immunological'].map(param => <div key={param.id}> 
+                {catalog['Hematological'].map(param => <div key={param.id}> 
                 <ParameterCard 
                         getResult={()=>getResByCatalogId(results, param.id)}
                         getParameter={()=>param}/> 
                     </div>)}
                 <h4>Иммунный статус</h4>
-                {catalog['Hematological'].map(param => <div key={param.id}>
+                {catalog['Immunological'].map(param => <div key={param.id}>
                     <ParameterCard 
                         getResult={()=>getResByCatalogId(results, param.id)}
                         getParameter={()=>param}/> 
@@ -83,11 +84,6 @@ function ParameterList(props){
                 <h4>Соотношения</h4>
 
             </div>
-            
-            <button onClick={()=>{
-                setTest(null)
-                setResults(null)}
-                }>Новый анализ</button>
         </div>
     )
 }

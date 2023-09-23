@@ -1,19 +1,24 @@
 import { useParams} from "react-router-dom"
 import { useState, useEffect } from "react"
 import classes from './TestCard.module.css'
+import {ApiHost} from './../../../../globals/globals.js'
 
 function TestCard(props){
 
     const [test, setTest] = useState(props.getTest())
 
     const handleDeletion = (testId)=>{
-
+        fetch(ApiHost+'/results/tests/'+testId,{
+            method:"DELETE"
+        }).then(data => props.deletionCallBack())
     }
 
     const handleCardClick = ()=>{
         props.callbackTest(test);
     }
     
+
+
     return (
         <div className={classes.card}>
             <div className={classes.innerCard} onClick={handleCardClick}>
