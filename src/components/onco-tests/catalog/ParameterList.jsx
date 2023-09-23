@@ -18,6 +18,8 @@ function ParameterList(props){
         setResultsLoaded(false)
     },[props])
 
+    useEffect(()=>{props.resutlsCallback(results)},[results])
+
     useEffect(()=>{getResultsFromServer()},[test])
 
     const getCatalogFromServer = ()=>{
@@ -46,6 +48,9 @@ function ParameterList(props){
         })
     }
     
+    const handlechanging = ()=>{
+        props.resutlsCallback(results);
+    }
 
     if(!isCatalogLoaded || catalog==null){
     return (
@@ -60,7 +65,7 @@ function ParameterList(props){
     else
     return (
         <div>
-            <div>
+            {test!==null && <div onChange={handlechanging}>
                 <h3>Результаты</h3>
                 {test != null ? test.testDate : ""}
                 <h4>Результаты гематологического исследования</h4>
@@ -83,7 +88,7 @@ function ParameterList(props){
                     </div>)}
                 <h4>Соотношения</h4>
 
-            </div>
+            </div>}
         </div>
     )
 }

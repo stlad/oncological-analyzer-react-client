@@ -22,6 +22,8 @@ function ParameterCard(props){
             ...result,
             ["value"]: value
         })
+        props.getResult()['value']=Number(value)
+    
         setSaved(false);
     }
 
@@ -42,8 +44,8 @@ function ParameterCard(props){
                 <p>{parameter.name} ({parameter.additionalName})</p>
                 <p>min: {parameter.refMin}   max: {parameter.refMax} ,{parameter.unit}</p>
                 <div>
-                    <input type='number' value={result != null ? result.value : 0} onChange={handleValueChanged}></input>
                     {!isSaved && <button onClick={handleSaveValue}>Сохранить</button>}
+                    <input type='number' value={result != null ? result.value : 0} onChange={handleValueChanged}></input>
                 </div>
             </div>
         </div>

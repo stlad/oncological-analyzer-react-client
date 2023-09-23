@@ -3,7 +3,7 @@ import PatientListForCard from '../patients/PatientListForCards/PatientListForCa
 import PatientForm from '../patients/PatientForm/PatientForm.jsx'
 import PatientWindow from '../patients/PatientWindow';
 import TestPage from '../onco-tests/TestPage.jsx'
-
+import ChartPage from './../charts/ChartPage.jsx'
 const AppRoutes  = (props) =>{
 
     return (
