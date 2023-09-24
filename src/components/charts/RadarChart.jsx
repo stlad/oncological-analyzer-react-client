@@ -6,7 +6,7 @@ function RadarChart(props){
     const [min,setMin] = useState([0,0,0,0])
     const [values,setValues] = useState([0,0,0,0])
     const [max,setMax] = useState([0,0,0,0])
-    const [bOption, setBoption] = useState(getBOption(min, values, max))
+    const [option, setOption] = useState(props.getOption(min, values, max))
 
     useEffect(()=>{
         let data = props.getData();
@@ -14,17 +14,17 @@ function RadarChart(props){
         setMax(data.max)
         setValues(data.values)
         // console.log(values)
-        setBoption(getBOption(min,values,max))
+        setOption(props.getOption(min, values, max))
     },[props])
 
-    useEffect(()=>{},[bOption])
+    useEffect(()=>{},[option])
 
 
 
     return(
         <div>
         <ReactECharts
-            option={bOption}
+            option={option}
             notMerge={true}
             lazyUpdate={true}
             theme={"theme_name"}

@@ -39,7 +39,6 @@ function TestPage (props){
 
     const resultsCallback = (res)=>{
         setResults(res)
-        // console.log(results)
     }
 
     

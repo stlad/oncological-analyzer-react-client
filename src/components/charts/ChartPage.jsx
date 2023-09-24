@@ -1,27 +1,37 @@
 import { useEffect, useState } from 'react';
 import RadarChart from './RadarChart';
 import classes from './charts.module.css'
+import { getBOption, getTOption } from './charts.js';
 function ChartPage(props){
     const [results, setResults] = useState([])
+    const [renderFlag, setRenderFlag] = useState(false)
 
     useEffect(()=>{
         setResults(props.getResults());
-        console.log("CHAAAAN")
+        console.log(results)
     },[props])
+    
+    useEffect(()=>{
+        setRenderFlag(!renderFlag)
+    },[results])
 
     return (
         <div>
             <div className={classes.chartArea}>
-                <RadarChart getData={()=>processForBChart(results)}/>
+                <RadarChart getData={()=>processForBChart(results)}
+                    getOption={getBOption}/>
             </div>
 
+            <div className={classes.chartArea}>
+                <RadarChart getData={()=>processForTChart(results)}
+                    getOption={getTOption}/>
+            </div>
 
         </div>
     )
 }
 
 function processForBChart(results){
-
     let NEU = getValueAndParambyAddName(results,"NEU");
     let LYMF = getValueAndParambyAddName(results,"LYMF");
     // let CD3 = getValueAndParamFor(results,"CD45+CD3+");
@@ -35,9 +45,33 @@ function processForBChart(results){
     let NEUdivLYMF =  divide(NEU, LYMF)
 
 
-    let mins = [NEUdivCD19[0], CD19divCD4[0], CD19divCD8[0], NEUdivLYMF[0]];
-    let vals = [NEUdivCD19[1], CD19divCD4[1], CD19divCD8[1], NEUdivLYMF[1]];
-    let max = [NEUdivCD19[2], CD19divCD4[2], CD19divCD8[2], NEUdivLYMF[2]];
+    let mins = [NEUdivCD19[0], NEUdivLYMF[0], CD19divCD8[0], CD19divCD4[0]];
+    let vals = [NEUdivCD19[1], NEUdivLYMF[1], CD19divCD8[1], CD19divCD4[1]];
+    let max = [NEUdivCD19[2], NEUdivLYMF[2], CD19divCD8[2], CD19divCD4[2]];
+    return{
+        "min":mins,
+        'values':vals,
+        "max":max
+    }
+}
+
+
+function processForTChart(results){
+    let NEU = getValueAndParambyAddName(results,"NEU");
+    let LYMF = getValueAndParambyAddName(results,"LYMF");
+    let CD3 = getValueAndParambyAddName(results,"CD45+CD3+");
+    let CD4 = getValueAndParambyAddName(results,"CD45+CD3+CD4+");
+    let CD8 = getValueAndParambyAddName(results,"CD45+CD3+CD8+");
+
+    let NEUdivCD3 =  divide(NEU, CD3)
+    let NEUdivCD4 =  divide(NEU, CD4)
+    let NEUdivCD8 =  divide(NEU, CD8)
+    let NEUdivLYMF =  divide(NEU, LYMF)
+
+
+    let mins = [NEUdivCD3[0], NEUdivLYMF[0], NEUdivCD8[0], NEUdivCD4[0]];
+    let vals = [NEUdivCD3[1], NEUdivLYMF[1], NEUdivCD8[1], NEUdivCD4[1]];
+    let max = [NEUdivCD3[2], NEUdivLYMF[2], NEUdivCD8[2], NEUdivCD4[2]];
     return{
         "min":mins,
         'values':vals,

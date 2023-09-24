@@ -18,4 +18,9 @@ function getEmptyPatientTemplate(){
     }
     
 }
+
+
+
+let CurrentResultOnForm = []
+
 export {ApiHost, getEmptyPatientTemplate};

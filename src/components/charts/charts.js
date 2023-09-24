@@ -6,9 +6,9 @@ function getBOption(min_values,values,max_values){
     let title_text = 'Относительные параметры B - клеточного звена иммунитета'
     let radar_indicator = [
         { name: 'NEU/CD19' },
-        { name: 'CD19/CD4' },
+        { name: 'NEU/LYMF' },
         { name: 'CD19/CD8' },
-        { name: 'NEU/LYMF' }
+        { name: 'CD19/CD4' },
       ]
 
     let option = getBaseOption(title_text,radar_indicator,min_values,values,max_values)
@@ -16,8 +16,22 @@ function getBOption(min_values,values,max_values){
       return option
 }
 
-function getTOption(values){
+function getTOption(min_values,values,max_values){
+    
+  // console.log(min_values)
+  // console.log(values)
+  // console.log(max_values)
+  let title_text = 'Относительные параметры T - клеточного звена иммунитета'
+  let radar_indicator = [
+      { name: 'NEU/CD3' },
+      { name: 'NEU/LYMF' },
+      { name: 'NEU/CD8' },
+      { name: 'NEU/CD4' }
+    ]
 
+  let option = getBaseOption(title_text,radar_indicator,min_values,values,max_values)
+  // console.log(option)
+    return option
 }
 
 function getCytokineOption(values){
@@ -78,4 +92,4 @@ function getBaseOption(titleText,indicator,minValues, values, maxValues){
 }
 
 
-export {getBOption}
+export {getBOption, getTOption}

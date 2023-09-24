@@ -23,7 +23,6 @@ function ParameterCard(props){
             ["value"]: value
         })
         props.getResult()['value']=Number(value)
-    
         setSaved(false);
     }
 
@@ -40,9 +39,9 @@ function ParameterCard(props){
 
     return (
         <div>
-            <div className={classes.card}>
+            <div className={classes.card} >
                 <p>{parameter.name} ({parameter.additionalName})</p>
-                <p>min: {parameter.refMin}   max: {parameter.refMax} ,{parameter.unit}</p>
+                <p>[{parameter.refMin} - {parameter.refMax}] ,{parameter.unit}</p>
                 <div>
                     {!isSaved && <button onClick={handleSaveValue}>Сохранить</button>}
                     <input type='number' value={result != null ? result.value : 0} onChange={handleValueChanged}></input>
