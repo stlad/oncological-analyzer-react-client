@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { ApiHost } from "../../../globals/globals"
 import ParameterCard from "./ParameterCard/ParameterCard"
+import IndexParameterCard from "./ParameterCard/IndexParameterCard"
 function ParameterList(props){
     const [catalog, setCatalog] = useState(null)
     const [isCatalogLoaded, setCatalogLoaded] = useState(false)
@@ -87,7 +88,8 @@ function ParameterList(props){
                         getParameter={()=>param}/> 
                     </div>)}
                 <h4>Соотношения</h4>
-
+                {/* <IndexParameterCard  getResults={()=>results} 
+                fName='' fAddname={} sName={} sAddname={}/> */}
             </div>}
         </div>
     )

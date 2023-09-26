@@ -28,7 +28,7 @@ function RadarChart(props){
             notMerge={true}
             lazyUpdate={true}
             theme={"theme_name"}
-            onChartReady={()=> console.log("ready")} 
+            // onChartReady={()=> console.log("ready")} 
             style={{height: '800px', width: '100%'}}
             />
 

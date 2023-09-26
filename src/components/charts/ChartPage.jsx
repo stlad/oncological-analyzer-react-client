@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import RadarChart from './RadarChart';
 import classes from './charts.module.css'
-import { getBOption, getTOption } from './charts.js';
+import { getBOption, getTOption, getCytokineOption } from './charts.js';
 function ChartPage(props){
     const [results, setResults] = useState([])
     const [renderFlag, setRenderFlag] = useState(false)
@@ -27,6 +27,11 @@ function ChartPage(props){
                     getOption={getTOption}/>
             </div>
 
+
+            <div className={classes.chartArea}>
+                <RadarChart getData={()=>processForCytokineChart(results)}
+                    getOption={getCytokineOption}/>
+            </div>
         </div>
     )
 }
@@ -79,10 +84,42 @@ function processForTChart(results){
     }
 }
 
+function processForCytokineChart(results){
+    let TNFa_stim = getValueAndParambyId(results, 20);
+    let TNFa_spon = getValueAndParambyId(results, 21);
+    let fno = divide(TNFa_stim, TNFa_spon);
+    
+    let IFNy_stim = getValueAndParambyId(results, 18);
+    let IFNy_spon = getValueAndParambyId(results, 19);
+    let infer = divide(IFNy_stim, IFNy_spon);
+
+    let IL2_stim = getValueAndParambyId(results, 22);
+    let IL2_spon = getValueAndParambyId(results, 23);
+    let inlink = divide(IL2_stim, IL2_spon);
+
+    let mins = [80,     80,       80];
+    let vals = [fno[1], infer[1], inlink[1]];
+    let max  = [120,    120,      120];
+    return{
+        "min":mins,
+        'values':vals,
+        "max":max
+    }
+}
+
 function getValueAndParambyAddName(results, param){
     if(results!==null){
     for(var p of results){
         if(p.parameter.additionalName===param)
+        return [p.parameter.refMin ,p.value, p.parameter.refMax]
+    }}
+    return [0,0,0]
+}
+
+function getValueAndParambyId(results, id){
+    if(results!==null){
+    for(var p of results){
+        if(p.parameter.id===id)
         return [p.parameter.refMin ,p.value, p.parameter.refMax]
     }}
     return [0,0,0]

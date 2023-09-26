@@ -34,20 +34,31 @@ function getTOption(min_values,values,max_values){
     return option
 }
 
-function getCytokineOption(values){
+function getCytokineOption(min_values,values,max_values){
+  let scale = 1.2;
+  let maxValue = Math.max(...min_values, ...values, ...max_values)
+  let title_text = 'Цитокиновые пары'
+  let radar_indicator = [
+      { name: 'ФНО', max:maxValue*scale },
+      { name: 'Интерферон гамма',max:maxValue*scale },
+      { name: 'Интерлейкин 2', max:maxValue*scale },
+    ]
+
+  let option = getBaseOption(title_text,radar_indicator,min_values,values,max_values)
+  // console.log(option)
+    return option
 }
-
-
-
 
 
 function getBaseOption(titleText,indicator,minValues, values, maxValues){
     return {
         title: {
+          left: 'center',
           text: titleText
         },
         legend: {
-          data: ['', '']
+          top:30,
+          data: ['Нижние референтные значения','Результат', 'Верхние референтные значения']
         },
         radar: {
           // shape: 'circle',
@@ -92,4 +103,4 @@ function getBaseOption(titleText,indicator,minValues, values, maxValues){
 }
 
 
-export {getBOption, getTOption}
+export {getBOption, getTOption, getCytokineOption}
