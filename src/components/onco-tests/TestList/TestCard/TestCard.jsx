@@ -26,7 +26,7 @@ function TestCard(props){
                 <p></p>
                 <p>Сезон: {getSeason(test.testDate)}</p>
             </div>
-            <div className={classes.cardBtn}  onClick={()=>handleDeletion(test.id)}>X</div>
+            <div className={classes.cardBtn}  onClick={()=>handleDeletion(test.id)}>Удалить</div>
         </div>
     )
 }

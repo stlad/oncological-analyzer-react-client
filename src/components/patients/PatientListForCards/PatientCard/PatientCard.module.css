@@ -17,7 +17,7 @@ p{
     margin:auto;
 }
 .innerCard:hover{
-    background-color: brown;
+    background-color:gainsboro;
 }
 
 
@@ -30,5 +30,5 @@ p{
 
 
 .cardBtn:hover{
-    background-color: blue;
+    background-color: gainsboro;
 }

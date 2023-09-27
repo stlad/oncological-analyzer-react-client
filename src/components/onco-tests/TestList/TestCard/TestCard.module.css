@@ -9,6 +9,7 @@ p{
     
     display: flex;
     flex-direction: row;
+    gap: 10px;
 }
 
 
@@ -17,18 +18,18 @@ p{
     margin:auto;
 }
 .innerCard:hover{
-    background-color: brown;
+    background-color: gainsboro;
 }
 
 
 .cardBtn{
     width: 80px;
-    margin: auto;
-    height: 100%;
+    margin: 0;
+    padding: auto;
     vertical-align: middle;
 }
 
 
 .cardBtn:hover{
-    background-color: blue;
+    background-color: gainsboro;
 }

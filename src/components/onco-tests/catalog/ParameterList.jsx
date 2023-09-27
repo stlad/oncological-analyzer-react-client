@@ -8,6 +8,7 @@ function ParameterList(props){
     const [test, setTest] = useState(null)
     const [results, setResults] = useState(null)
     const [isResultsLoaded, setResultsLoaded] = useState(false)
+    const [rerenderFlag, setFlag] = useState(true)
 
     
     useEffect(()=>{
@@ -50,6 +51,7 @@ function ParameterList(props){
     }
     
     const handlechanging = ()=>{
+        setFlag(!rerenderFlag);
         props.resutlsCallback(results);
     }
 
@@ -90,6 +92,9 @@ function ParameterList(props){
                 <h4>Соотношения</h4>
                 {/* <IndexParameterCard  getResults={()=>results} 
                 fName='' fAddname={} sName={} sAddname={}/> */}
+                <IndexParameterCard flag={rerenderFlag} getResults={()=>results} fIndex={11} sIndex={12} />
+                <IndexParameterCard flag={rerenderFlag} getResults={()=>results} fIndex={20} sIndex={21} />
+                <IndexParameterCard flag={rerenderFlag} getResults={()=>results} fIndex={22} sIndex={23} />
             </div>}
         </div>
     )

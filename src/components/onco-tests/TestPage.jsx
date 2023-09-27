@@ -49,8 +49,8 @@ function TestPage (props){
             <TestList getPatient={()=>patient}
             testCallback= {testCallback}/>
             
-            <ParameterList resutlsCallback={resultsCallback} getTest={()=>test}/>
             <ChartPage getResults={()=>results} />
+            <ParameterList resutlsCallback={resultsCallback} getTest={()=>test}/>
         </div>
     )
 }

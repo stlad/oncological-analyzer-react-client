@@ -4,12 +4,18 @@ import classes from './ParameterCard.module.css'
 
 function IndexParameterCard(props){
 
-    const [results, setResults] = useState([])
-    const [index, setIndex] = useState([])
-    
+    const [results, setResults] = useState(null)
+    const [index, setIndex] = useState([0,0,0])
+    const [firstRes, setFirst] = useState({parameter:{name:null, addictionalName:null}, value:0})
+    const [secondRes, setSecond] = useState({parameter:{name:null, addictionalName:null}, value:0})
+
     useEffect(()=>{
         setResults(props.getResults());
-        setIndex(calculateIndex(results, props.fName, props.fAddname, props.sName, props.sAddname))
+        if(results===null || results==[]) return 
+        setFirst(getValueAndParambyId(results, props.fIndex));
+        setSecond( getValueAndParambyId(results, props.sIndex));
+
+        setIndex(calculateIndex(results, firstRes, secondRes))
     },[props])
     // props.fName
     // props.fAddname
@@ -25,31 +31,30 @@ function IndexParameterCard(props){
         <div>
             <div className={classes.card} >
                 <p>Соотношение: {}</p>
-                <p>{props.fName} ({props.fAddname}) / </p>
-                <p>{props.sName} ({props.sAddname})</p>
+                <p>{firstRes.parameter.name} ({firstRes.parameter.additionalName}) /</p> 
+                <p>{secondRes.parameter.name} ({secondRes.parameter.additionalName})</p>
                 <p>[{index[0]} - {index[2]}]</p>
                 <div>
-                    <input type='number' value={index[1] != null ? index[1] : 0} enabled={false} ></input>
+                    {index[1] != null ? index[1] : 0} 
                 </div>
             </div>
         </div>
     )
 }
 
-
-function getValueAndParambyAddName(results, paramName, paramAddname){
+function getValueAndParambyId(results, id){
     if(results!==null){
     for(var p of results){
-        if(p.parameter.additionalName===paramAddname &&
-            p.parameter.name===paramName)
-        return [p.parameter.refMin ,p.value, p.parameter.refMax]
+        if(p.parameter.id===id)
+        return p
     }}
-    return [0,0,0]
+    return null;
 }
 
-function calculateIndex(results, fName,fAddname, sName,sAddname){
-    let first = getValueAndParambyAddName(fName, fAddname);
-    let sec = getValueAndParambyAddName(sName, sAddname);
+
+function calculateIndex(results, fres, sres){
+    let first = [fres.parameter.refMin, fres.value, fres.parameter.refMax];
+    let sec = [sres.parameter.refMin, sres.value, sres.parameter.refMax];
     let min =  sec[0] != 0 ? (first[0]/sec[0]).toFixed(2) : 0;
     let val =  sec[1] != 0 ? (first[1]/sec[1]).toFixed(2) : 0;
     let max =  sec[2] != 0 ? (first[2]/sec[2]).toFixed(2) : 0;

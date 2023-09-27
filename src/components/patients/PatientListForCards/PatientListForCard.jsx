@@ -13,13 +13,13 @@ function PatientListForCard(props){
     const [rerenderFlag, callRerender] = useState(false);
     
     useEffect(() =>{
-        console.log("rendered");
+        // console.log("rendered");
         fetch(ApiHost+'/patients/all', {
             method:"GET"
         })
         .then(resp => resp.json())
         .then(data=>{
-            console.log("data getted");
+            // console.log("data getted");
             console.log(data);
             setPatients(data);
             setLoading(false);
@@ -30,7 +30,7 @@ function PatientListForCard(props){
     },[rerenderFlag])
     
     const handlePatientDeletion = () =>{
-        console.log("deletion")
+        // console.log("deletion")
         setPatients([]);
         callRerender(!rerenderFlag);
     }

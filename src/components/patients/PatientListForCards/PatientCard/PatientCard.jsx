@@ -36,7 +36,7 @@ function PatientCard(props){
     return(
         <div className={classes.card}>
             <div>
-                <div className={classes.cardBtn}  onClick={()=>handleDeletion(pat.id)}>X</div>
+                <div className={classes.cardBtn}  onClick={()=>handleDeletion(pat.id)}>Удалить</div>
             </div>
             <div className={classes.innerCard} key={"pat-dlt-btn-" + pat.id} onClick={()=>handleInfo(pat.id)}>
                 {/* <p>{pat.id}</p> */}

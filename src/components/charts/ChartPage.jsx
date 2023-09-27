@@ -8,7 +8,7 @@ function ChartPage(props){
 
     useEffect(()=>{
         setResults(props.getResults());
-        console.log(results)
+        // console.log(results)
     },[props])
     
     useEffect(()=>{
@@ -129,7 +129,9 @@ function divide(first, sec){
     let min =  sec[0] != 0 ? (first[0]/sec[0]).toFixed(2) : 0;
     let val =  sec[1] != 0 ? (first[1]/sec[1]).toFixed(2) : 0;
     let max =  sec[2] != 0 ? (first[2]/sec[2]).toFixed(2) : 0;
-    return [min,val,max]
+    let finalMin = Math.min(min, max);
+    let finalMax = Math.max(min, max)
+    return [finalMin,val,finalMax]
 }
 
 export default ChartPage;
