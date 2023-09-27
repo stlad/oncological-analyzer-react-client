@@ -56,6 +56,9 @@ function getBaseOption(titleText,indicator,minValues, values, maxValues){
           left: 'center',
           text: titleText
         },
+        tooltip: {
+          trigger: 'axis'
+        },
         legend: {
           top:30,
           data: ['Нижние референтные значения','Результат', 'Верхние референтные значения']
@@ -66,6 +69,9 @@ function getBaseOption(titleText,indicator,minValues, values, maxValues){
         },
         series: [
           {
+            tooltip: {
+              trigger: 'item'
+            },
             name: '',
             type: 'radar',
             data: [
@@ -74,7 +80,7 @@ function getBaseOption(titleText,indicator,minValues, values, maxValues){
                 value: minValues,
                 name: 'Нижние референтные значения',
                 itemStyle: {
-                  color: '#F9713C'
+                  color: '#228B22'
                 },
                 lineStyle: {
                   type: 'dashed'
@@ -85,7 +91,7 @@ function getBaseOption(titleText,indicator,minValues, values, maxValues){
                 value: maxValues,
                 name: 'Верхние референтные значения',
                 itemStyle: {
-                  color: '#F9713C'
+                  color: '#228B22'
                 },
                 lineStyle: {
                   type: 'dashed'
@@ -94,7 +100,10 @@ function getBaseOption(titleText,indicator,minValues, values, maxValues){
               {
                 label: { show: true, },
                 value: values,
-                name: 'Результат'
+                name: 'Результат',
+                itemStyle: {
+                  color: '#DC143C'
+                },
               }
             ]
           }
