@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { ApiHost } from "../../../globals/globals"
 import ParameterCard from "./ParameterCard/ParameterCard"
 import IndexParameterCard from "./ParameterCard/IndexParameterCard"
+import { createReport } from "../../reports/reportsToDocx"
 function ParameterList(props){
     const [catalog, setCatalog] = useState(null)
     const [isCatalogLoaded, setCatalogLoaded] = useState(false)
@@ -55,6 +56,10 @@ function ParameterList(props){
         props.resutlsCallback(results);
     }
 
+    const handleReportButtonClick = () =>{
+        createReport(test.id)
+    }
+
     if(!isCatalogLoaded || catalog==null){
     return (
         <div>
@@ -70,7 +75,7 @@ function ParameterList(props){
         <div>
             {test!==null && <div onChange={handlechanging}>
                 <h3>Результаты</h3>
-                {test != null ? test.testDate : ""}
+                {test != null ? test.testDate : ""} <input type='button' value=".docx" onClick={handleReportButtonClick}></input>
                 <h4>Результаты гематологического исследования</h4>
                 {catalog['Hematological'].map(param => <div key={param.id}> 
                 <ParameterCard 

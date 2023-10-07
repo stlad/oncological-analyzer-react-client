@@ -19,18 +19,21 @@ function ChartPage(props){
         <div>
             <div className={classes.chartArea}>
                 <RadarChart getData={()=>processForBChart(results)}
-                    getOption={getBOption}/>
+                    getOption={getBOption}
+                    chartType={'B'}/>
             </div>
 
             <div className={classes.chartArea}>
                 <RadarChart getData={()=>processForTChart(results)}
-                    getOption={getTOption}/>
+                    getOption={getTOption}
+                    chartType={'T'}/>
             </div>
 
 
             <div className={classes.chartArea}>
                 <RadarChart getData={()=>processForCytokineChart(results)}
-                    getOption={getCytokineOption}/>
+                    getOption={getCytokineOption}
+                    chartType={'Cytokine'}/>
             </div>
         </div>
     )

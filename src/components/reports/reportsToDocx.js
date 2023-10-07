@@ -1,10 +1,10 @@
 import { ApiHost } from "../../globals/globals";
-import { Document, Packer, Paragraph, Tab, TableCell, TableRow, TextRun, Table, WidthType } from "docx";
+import { Document, Packer, Paragraph, Tab, TableCell, TableRow, TextRun, Table, WidthType, ImageRun } from "docx";
 import { saveAs } from "file-saver";
+import { CurrentCharts } from "../charts/charts";
 
-const testId = 1;
 
-function createReport(){
+function createReport(testId){
     fetch(ApiHost + '/reports/' + testId,{
         method:"GET"
     }).then(resp => resp.json())
@@ -13,21 +13,28 @@ function createReport(){
 }
 
 
-function createDocx(data){
+async function createDocx(data){
+    const infotable = await patentInfoTable(data)
+    const resTable = await resultsTable(data)
+    const avgTable = await avgResultsTable(data)
+    const bChart = await chartImage("B")
+    const tChart = await chartImage("T")
+    const cChart = await chartImage("Cytokine")
     const doc = new Document({
         sections: [{
             children: [
-                patentInfoTable(data),
-                new Paragraph(''),
-                resultsTable(data),
-                new Paragraph(''),
-                avgResultsTable(data),
+                infotable, new Paragraph(''),
+                resTable,new Paragraph(''),
+                bChart,new Paragraph(''),
+                tChart,new Paragraph(''),
+                cChart,new Paragraph(''),
+                avgTable,new Paragraph(''),
             ],
         }]
     });
-    saveReport(doc, data.fullName + ".docx");
-
+    saveReport(doc, `${data.fullName} - ${data.testDate}.docx`);
 }
+
 
 function patentInfoTable(info){
     const fullname = info.fullName;
@@ -86,7 +93,7 @@ function avgResultsTable(data){
         else difference = '='
 
 
-        rows.push(tableRowOf5(
+        rows.push(tableRowOf(
             `${res.parameter.name} (${res.parameter.additionalName})`,
             `[${res.parameter.refMin} - ${res.parameter.refMax}]`,
             res.avg.toString(),
@@ -101,23 +108,32 @@ function avgResultsTable(data){
 
 }
 
-
-//TODO СДЕЛАТЬ МЕТОДЫ УНИВЕРСАЛЬНЫМИ!
-function tableRowOf(text1, text2){
-    return new TableRow({children:[
-        new TableCell({children:[new Paragraph(text1)]}),
-        new TableCell({children:[new Paragraph(text2)]})
-    ]})
+function tableRowOf(...texts){
+    let children =[]
+    texts.map((text, index)=>{
+        let par = new Paragraph(text);
+        let cell = new TableCell({
+            width: { size: 50, type: WidthType.PERCENTAGE },
+            children:[par]
+        })
+        children.push(cell);
+    })
+    return new TableRow({
+        children:children
+    })
 }
 
-function tableRowOf5(text1, text2,text3, text4, text5){
-    return new TableRow({children:[
-        new TableCell({children:[new Paragraph(text1)]}),
-        new TableCell({children:[new Paragraph(text2)]}),
-        new TableCell({children:[new Paragraph(text3)]}),
-        new TableCell({children:[new Paragraph(text4)]}),
-        new TableCell({children:[new Paragraph(text5)]}),
-    ]})
+async function chartImage(chartType){
+    const chartUrl = CurrentCharts[chartType].getDataURL();
+    const blob = await fetch(chartUrl).then(r => r.blob());
+    const img = new ImageRun({
+        data: blob,
+        transformation:{
+            width:700,
+            height:600
+        }
+      })
+    return new Paragraph({children:[img]});
 }
 
 function saveReport(doc, filename){

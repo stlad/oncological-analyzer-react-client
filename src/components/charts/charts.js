@@ -111,5 +111,9 @@ function getBaseOption(titleText,indicator,minValues, values, maxValues){
       };
 }
 
-
-export {getBOption, getTOption, getCytokineOption}
+const CurrentCharts = {
+  "B":null,
+  "T":null,
+  "Cytokine":null
+}
+export {getBOption, getTOption, getCytokineOption,CurrentCharts}

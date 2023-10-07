@@ -1,9 +1,7 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import PatientListForCard from '../patients/PatientListForCards/PatientListForCard';
-import PatientForm from '../patients/PatientForm/PatientForm.jsx'
+import { BrowserRouter, Routes, Route} from 'react-router-dom';
 import PatientWindow from '../patients/PatientWindow';
 import TestPage from '../onco-tests/TestPage.jsx'
-import ChartPage from './../charts/ChartPage.jsx'
+
 const AppRoutes  = (props) =>{
 
     return (
