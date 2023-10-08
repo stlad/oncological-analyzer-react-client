@@ -1,5 +1,5 @@
 import { ApiHost } from "../../globals/globals";
-import { Document, Packer, Paragraph, Tab, TableCell, TableRow, TextRun, Table, WidthType, ImageRun } from "docx";
+import { Document, Packer, Paragraph, Tab, TableCell, TableRow, TextRun, Table, WidthType, ImageRun ,convertInchesToTwip} from "docx";
 import { saveAs } from "file-saver";
 import { CurrentCharts } from "../charts/charts";
 
@@ -109,12 +109,19 @@ function avgResultsTable(data){
 }
 
 function tableRowOf(...texts){
+    let margins = {
+        top: convertInchesToTwip(0.1),
+        bottom: convertInchesToTwip(0.1),
+        right: convertInchesToTwip(0.1),
+        left: convertInchesToTwip(0.1),
+    }
     let children =[]
     texts.map((text, index)=>{
         let par = new Paragraph(text);
         let cell = new TableCell({
             width: { size: 50, type: WidthType.PERCENTAGE },
-            children:[par]
+            children:[par],
+            margins:margins
         })
         children.push(cell);
     })

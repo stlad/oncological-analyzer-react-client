@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams,Link } from "react-router-dom";
 import { ApiHost } from "../../globals/globals";
 import ParameterList from "./catalog/ParameterList";
 import TestList from "./TestList/TestList";
@@ -7,10 +7,10 @@ import PatientForm from "../patients/PatientForm/PatientForm";
 import classes from './TestPage.module.css'
 import ChartPage from "../charts/ChartPage";
 function TestPage (props){
-    let { patientId } = useParams()
-    const [patient, setPatient] = useState({id:-1})
-    const [test, setTest] = useState(null)
-    const [results, setResults] = useState(null)
+    let { patientId } = useParams();
+    const [patient, setPatient] = useState({id:-1});
+    const [test, setTest] = useState(null);
+    const [results, setResults] = useState(null);
 
     const getPatientFromServer = (id) =>{
         fetch(ApiHost + '/patients/' + id,{
@@ -44,13 +44,18 @@ function TestPage (props){
     
 
     return (
-        <div className={classes.row}>
+        <div >
+            <div className={classes.row}>
             <PatientForm  getPatient={()=>patient} />
             <TestList getPatient={()=>patient}
             testCallback= {testCallback}/>
             
             <ChartPage getResults={()=>results} />
             <ParameterList resutlsCallback={resultsCallback} getTest={()=>test}/>
+            </div>
+            <footer>
+                <Link to='/' >На главную</Link>
+            </footer>
         </div>
     )
 }

@@ -16,7 +16,7 @@ function PatientForm(props) {
   function patientFromPropsFunc(){
     let pat= props.getPatient == null ? getEmptyPatientTemplate() : props.getPatient();
     // console.log("patient")
-    console.log(pat);
+    // console.log(pat);
     setPatient(pat);
   }
 
@@ -29,7 +29,7 @@ function PatientForm(props) {
       ...patient,
       [name]: value ==="" ? null : value
     })
-    console.log(patient);
+    // console.log(patient);
   }
 
   function handleSubmit(event) {
