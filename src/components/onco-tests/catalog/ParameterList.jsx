@@ -97,9 +97,9 @@ function ParameterList(props){
                 <h4>Соотношения</h4>
                 {/* <IndexParameterCard  getResults={()=>results} 
                 fName='' fAddname={} sName={} sAddname={}/> */}
-                <IndexParameterCard flag={rerenderFlag} getResults={()=>results} fIndex={11} sIndex={12} />
-                <IndexParameterCard flag={rerenderFlag} getResults={()=>results} fIndex={20} sIndex={21} />
-                <IndexParameterCard flag={rerenderFlag} getResults={()=>results} fIndex={22} sIndex={23} />
+                <IndexParameterCard flag={rerenderFlag} getResults={()=>results} fIndex={38} sIndex={39} />
+                <IndexParameterCard flag={rerenderFlag} getResults={()=>results} fIndex={36} sIndex={37} />
+                <IndexParameterCard flag={rerenderFlag} getResults={()=>results} fIndex={40} sIndex={41} />
             </div>}
         </div>
     )

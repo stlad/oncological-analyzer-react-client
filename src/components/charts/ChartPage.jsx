@@ -88,16 +88,16 @@ function processForTChart(results){
 }
 
 function processForCytokineChart(results){
-    let TNFa_stim = getValueAndParambyId(results, 20);
-    let TNFa_spon = getValueAndParambyId(results, 21);
+    let TNFa_stim = getValueAndParambyId(results, 38);
+    let TNFa_spon = getValueAndParambyId(results, 39);
     let fno = divide(TNFa_stim, TNFa_spon);
     
-    let IFNy_stim = getValueAndParambyId(results, 18);
-    let IFNy_spon = getValueAndParambyId(results, 19);
+    let IFNy_stim = getValueAndParambyId(results, 36);
+    let IFNy_spon = getValueAndParambyId(results, 37);
     let infer = divide(IFNy_stim, IFNy_spon);
 
-    let IL2_stim = getValueAndParambyId(results, 22);
-    let IL2_spon = getValueAndParambyId(results, 23);
+    let IL2_stim = getValueAndParambyId(results, 40);
+    let IL2_spon = getValueAndParambyId(results, 41);
     let inlink = divide(IL2_stim, IL2_spon);
 
     let mins = [80,     80,       80];

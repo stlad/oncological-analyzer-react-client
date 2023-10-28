@@ -8,18 +8,19 @@ function createReport(testId){
     fetch(ApiHost + '/reports/' + testId,{
         method:"GET"
     }).then(resp => resp.json())
-    .then( data=>createDocx(data))
+    .then( data=>createDocx(data, testId))
 
 }
 
 
-async function createDocx(data){
+async function createDocx(data, testId){
     const infotable = await patentInfoTable(data)
     const resTable = await resultsTable(data)
     const avgTable = await avgResultsTable(data)
     const bChart = await chartImage("B")
     const tChart = await chartImage("T")
     const cChart = await chartImage("Cytokine")
+    const recs =  await recommendations(testId)
     const doc = new Document({
         sections: [{
             children: [
@@ -29,12 +30,28 @@ async function createDocx(data){
                 tChart,new Paragraph(''),
                 cChart,new Paragraph(''),
                 avgTable,new Paragraph(''),
+                recs, new Paragraph('')
             ],
         }]
     });
     saveReport(doc, `${data.fullName} - ${data.testDate}.docx`);
 }
 
+async function recommendations(testId){
+    let recs = await fetch(ApiHost + '/recommendations/' + testId,{
+        method:"GET"
+    }).then(resp => resp.json())
+    .then( data=> data)
+    console.log(recs)
+    let recRuns = recs.map(rec=>{
+        return new TextRun({
+            text: rec,
+            break:1
+        });
+    })
+
+    return new Paragraph({children:recRuns})
+}
 
 function patentInfoTable(info){
     const fullname = info.fullName;
@@ -65,14 +82,14 @@ function patentInfoTable(info){
 function resultsTable(data){
     const results=  data.results;
     const rows = {
-        'Hematological':[tableRowOf("Результаты гематологического исследования","")],
-        'Immunological':[tableRowOf("Иммунный статус", "") ],
-        'Cytokine' :[tableRowOf("Цитокиновый статус", "")]
+        'Hematological':[tableRowOf("Результаты гематологического исследования")],
+        'Immunological':[tableRowOf("Иммунный статус") ],
+        'Cytokine' :[tableRowOf("Цитокиновый статус")]
     }
 
     for(var res of results){
         rows[res.parameter.researchType].push(
-            tableRowOf(`${res.parameter.name} (${res.parameter.additionalName})`, res.value.toString())
+            tableRowOf(`${res.parameter.name} ( ${res.parameter.additionalName} )`, res.value.toString(),`[${res.parameter.refMin}-${res.parameter.refMax}]`)
         )
     }
 
