@@ -55,6 +55,7 @@ function TestPage (props){
             </div>
             <footer>
                 <Link to='/' >На главную</Link>
+                <Link to='/recommendations' >Конструктор рекомендаций</Link>
             </footer>
         </div>
     )

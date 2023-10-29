@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route} from 'react-router-dom';
 import PatientWindow from '../patients/PatientWindow';
 import TestPage from '../onco-tests/TestPage.jsx'
-
+import RecMainPage from '../recommendations/RecMainPage';
 const AppRoutes  = (props) =>{
 
     return (
@@ -26,6 +26,15 @@ const AppRoutes  = (props) =>{
                     }/>
             </Route>
 
+            
+            <Route 
+                path="/recommendations"
+                element = {
+                    <div >
+                        <RecMainPage  />
+                    </div>
+            }
+            />
         </Routes>
     </BrowserRouter>
 )
