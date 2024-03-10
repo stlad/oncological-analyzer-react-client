@@ -28,7 +28,7 @@ const AppRoutes  = (props) =>{
 
             
             <Route 
-                path="/recommendations"
+                path="/recommendations----"
                 element = {
                     <div >
                         <RecMainPage  />

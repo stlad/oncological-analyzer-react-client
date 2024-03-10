@@ -49,6 +49,20 @@ function getCytokineOption(min_values,values,max_values){
     return option
 }
 
+function getUnknownNewOption(min_values,values,max_values){
+  let scale = 1.2;
+  let maxValue = Math.max(...min_values, ...values, ...max_values)
+  let title_text = 'Четвертый график'
+  let radar_indicator = [
+      { name: 'NEU/MON'},
+      { name: 'NEU/LYMF'},
+      { name: 'LYMF/MON'},
+    ]
+
+  let option = getBaseOption(title_text,radar_indicator,min_values,values,max_values)
+  // console.log(option)
+    return option
+}
 
 function getBaseOption(titleText,indicator,minValues, values, maxValues){
     return {
@@ -116,4 +130,4 @@ const CurrentCharts = {
   "T":null,
   "Cytokine":null
 }
-export {getBOption, getTOption, getCytokineOption,CurrentCharts}
+export {getBOption, getTOption, getCytokineOption,CurrentCharts,getUnknownNewOption}

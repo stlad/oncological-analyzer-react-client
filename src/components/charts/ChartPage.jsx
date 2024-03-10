@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import RadarChart from './RadarChart';
 import classes from './charts.module.css'
-import { getBOption, getTOption, getCytokineOption } from './charts.js';
+import { getBOption, getTOption, getCytokineOption, getUnknownNewOption } from './charts.js';
 function ChartPage(props){
     const [results, setResults] = useState([])
     const [renderFlag, setRenderFlag] = useState(false)
@@ -34,6 +34,13 @@ function ChartPage(props){
                 <RadarChart getData={()=>processForCytokineChart(results)}
                     getOption={getCytokineOption}
                     chartType={'Cytokine'}/>
+            </div>
+
+            
+            <div className={classes.chartArea}>
+                <RadarChart getData={()=>processForFourthChart(results)}
+                    getOption={getUnknownNewOption}
+                    chartType={'UnknownNew'}/>
             </div>
         </div>
     )
@@ -108,6 +115,27 @@ function processForCytokineChart(results){
         'values':vals,
         "max":max
     }
+}
+
+function processForFourthChart(results){
+    let NEU = getValueAndParambyAddName(results,"NEU");
+    let MON = getValueAndParambyAddName(results, "MON");
+    let LYMF = getValueAndParambyAddName(results,"LYMF");
+
+
+    let  NEUdivMON = divide(NEU, MON);
+    let  NEUdivLYMF = divide(NEU, LYMF);
+    let  LYMFdivMON = divide(LYMF, MON);
+
+    let mins = [10,     1.67,       6];
+    let vals = [NEUdivMON[1], NEUdivLYMF[1], LYMFdivMON[1]];
+    let max  = [180,    1.8,      100];
+    return{
+        "min":mins,
+        'values':vals,
+        "max":max
+    }
+
 }
 
 function getValueAndParambyAddName(results, param){

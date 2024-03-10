@@ -38,6 +38,7 @@ async function createDocx(data, testId){
 }
 
 async function recommendations(testId){
+    console.log(ApiHost + '/recommendations/' + testId)
     let recs = await fetch(ApiHost + '/recommendations/' + testId,{
         method:"GET"
     }).then(resp => resp.json())
